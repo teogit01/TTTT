@@ -1,0 +1,22 @@
+Bước 1:
+Tải driver connect sql server cho PHP
+link: https://docs.microsoft.com/vi-vn/sql/connect/php/download-drivers-php-sql-server?view=sql-server-ver15
+
+(Trong thư mục này có sẳn 2 file driver)
+	php_pdo_sqlsrv_74_ts_x64.dll
+	extension=php_sqlsrv_74_ts_x64.dll
+Copy 2 file driver vào thư mục: C:\xampp\php\ext
+
+Bước 2:
+Vào C:\xampp\php\php.init thêm vào
+	extension=php_pdo_sqlsrv_74_ts_x64.dll
+	extension=php_sqlsrv_74_ts_x64.dll
+khởi động lại xampp
+
+Bước 3: Cấu hình file .env cho Laravel
+DB_CONNECTION=sqlsrv
+DB_HOST=103.28.39.11
+DB_PORT=1433
+DB_DATABASE=nhcusvv9_thuctapdb
+DB_USERNAME=nhcusvv9_thuctapdb
+DB_PASSWORD=cusc@ctu2001
