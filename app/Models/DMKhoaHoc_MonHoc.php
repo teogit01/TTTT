@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class DMKhoaHoc_MonHoc extends BaseModel
+class DMKhoaHoc_MonHoc extends Model
 {
     protected $table = 'APTECH_DMKHOAHOC_MONHOC';
 
     protected $primaryKey = 'KHOA_MH_ID';
 
-    protected $keyType = 'string';
+    protected $keyType = 'integer';
 
     protected $fillable = [
         'MD_ID',
@@ -19,8 +18,5 @@ class DMKhoaHoc_MonHoc extends BaseModel
         'STT',
     ];
 
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    public $timestamps = false;
 }

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class DMKyThi extends BaseModel
+
+class DMKyThi extends Model
 {
     protected $table = 'APTECH_DMKYTHI';
 
     protected $primaryKey = 'KT_ID';
 
-    protected $keyType = 'string';
+    protected $keyType = 'integer';
 
     protected $fillable = [
         'KT_ID',
@@ -26,8 +26,5 @@ class DMKyThi extends BaseModel
         'LOP_ID',
     ];
 
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    public $timestamps = false;
 }

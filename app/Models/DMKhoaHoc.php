@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class DMKhoaHoc extends BaseModel
+class DMKhoaHoc extends Model
 {
     protected $table = 'APTECH_DMKHOAHOC';
 
@@ -19,9 +18,6 @@ class DMKhoaHoc extends BaseModel
         'KHOA_DIENGIAI',
         'KHOA_CT',
     ];
-
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    
+    public $timestamps = false;
 }

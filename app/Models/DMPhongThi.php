@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class DMPhongThi extends BaseModel
+class DMPhongThi extends Model
 {
      protected $table = 'APTECH_DM_PHONGTHI';
 
@@ -19,8 +18,5 @@ class DMPhongThi extends BaseModel
         'PHONGTHI_GHICHU',
     ];
 
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    public $timestamps = false;
 }

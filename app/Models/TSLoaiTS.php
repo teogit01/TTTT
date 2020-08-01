@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class TSLoaiTS extends BaseModel
+class TSLoaiTS extends Model
 {
      protected $table = 'TS_LOAI_TS';
 
     protected $primaryKey = 'LTS_ID';
 
-    protected $keyType = 'string';
+    protected $keyType = 'integer';
 
     protected $fillable = [
         'LTS_ID',
@@ -19,8 +18,5 @@ class TSLoaiTS extends BaseModel
         'PortalID',
     ];
 
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    public $timestamps = false;
 }

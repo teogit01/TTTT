@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class TSLichTS extends BaseModel
+class TSLichTS extends Model
 {
     protected $table = 'TS_LICH_TS';
 
     protected $primaryKey = 'LITS_ID';
 
-    protected $keyType = 'string';
+    protected $keyType = 'integer';
 
     protected $fillable = [
         'LITS_ID',
@@ -28,8 +27,5 @@ class TSLichTS extends BaseModel
         'TT_NGAYGHIDANH',
     ];
 
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    public $timestamps = false;
 }
