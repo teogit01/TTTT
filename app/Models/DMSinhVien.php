@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DiemDanh;
 
 class DMSinhVien extends Model
 {
@@ -36,4 +37,9 @@ class DMSinhVien extends Model
     ];
 
     public $timestamps = false;
+
+    public function diemDanh()
+    {
+        return $this->hasMany(DiemDanh::class, 'SV_MSSV');
+    }
 }

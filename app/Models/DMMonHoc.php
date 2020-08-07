@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DMLopHocPhan;
 
 class DMMonHoc extends Model
 {
@@ -24,4 +25,9 @@ class DMMonHoc extends Model
     ];
 
     public $timestamps = false;
+
+    public function dmLopHocPhan()
+    {
+        return $this->hasMany(DMLopHocPhan::class, 'MH_ID');
+    }
 }
