@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class TCDThi extends BaseModel
+class TCDThi extends Model
 {
      protected $table = 'APTECH_TCDTHI';
 
-    protected $primaryKey = 'SV_MSSV';
+    protected $primaryKey = ['SV_MSSV', 'KT_ID'];
 
-    protected $keyType = 'string';
+    protected $keyType = ['string', 'integer'];
 
     protected $fillable = [
         'SV_MSSV',
@@ -30,8 +29,5 @@ class TCDThi extends BaseModel
         'TCDTHI_IsSendMailLichThi',
     ];
 
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    public $timestamps = false;
 }

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\DiemDanh;
 
-class DMSinhVien extends BaseModel
+class DMSinhVien extends Model
 {
      protected $table = 'APTECH_DMSINHVIEN';
 
@@ -36,8 +36,10 @@ class DMSinhVien extends BaseModel
         'SV_ZALO',
     ];
 
-    public function __construct()
+    public $timestamps = false;
+
+    public function diemDanh()
     {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
+        return $this->hasMany(DiemDanh::class, 'SV_MSSV');
     }
 }

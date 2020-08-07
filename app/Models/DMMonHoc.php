@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\DMLopHocPhan;
 
-class DMMonHoc extends BaseModel
+class DMMonHoc extends Model
 {
     protected $table = 'APTECH_DMMONHOC';
 
@@ -24,8 +24,10 @@ class DMMonHoc extends BaseModel
         'MH_TTXETTOTNGHIEP', 
     ];
 
-    public function __construct()
+    public $timestamps = false;
+
+    public function dmLopHocPhan()
     {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
+        return $this->hasMany(DMLopHocPhan::class, 'MH_ID');
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\BaseModel;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class DMLop extends BaseModel
+class DMLop extends Model
 {
     protected $table = 'APTECH_DMLOP';
 
@@ -25,8 +24,5 @@ class DMLop extends BaseModel
         'LH_TRANGTHAI',
     ];
 
-    public function __construct()
-    {
-        $this->fillable_list = $this->fillable;         // trường fillable sẽ truyền vào biến fillable_list
-    }
+    public $timestamps = false;
 }
