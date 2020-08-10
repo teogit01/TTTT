@@ -1,0 +1,18 @@
+.ListClass{
+	.select-classes{
+		width: 20%;
+		//margin: 0 auto;
+	}
+	.control-class{
+		display: flex;
+		//justify-content: center;
+		align-items: flex-end;
+	}
+	// from Class component
+	.Class{
+		width: 80%;	
+		.table{
+			font-size: 12px;
+		}
+	}
+}
