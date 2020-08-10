@@ -1,0 +1,24 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background: #f9f9f9 url("../js/components/imgs/bgcusc.png") left top;
+	background-repeat: no-repeat;
+}
+.wraper {
+	width: 80rem;
+	margin: 0 auto;
+	.Header{
+		width: 70rem;
+		text-align: center;
+		margin: 10px auto;
+	}
+	.Footer{
+		width: 70rem;
+		text-align: center;
+		margin: 10px auto;
+		display: flex;
+		justify-content: center;
+	}
+}

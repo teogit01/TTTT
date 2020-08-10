@@ -1,0 +1,330 @@
+$res_320 : "only screen and (min-width: 320px) and (max-width: 374px)";
+$res_375 : "only screen and (min-width: 375px) and (max-width: 424px)";
+$res_425 : "only screen and (min-width: 425px) and (max-width: 767px)";
+$res_768 : "only screen and (min-width: 768px) and (max-width: 991px)";
+$res_992 : "only screen and (min-width: 992px) and (max-width: 1023px)";
+$res_1024 : "only screen and (min-width: 1024px) and (max-width: 1999px)";
+$res_1200 : "only screen and (min-width: 1200px)";
+
+$radius : 10px;
+%active {
+	background-color: #237ee5;
+	a{
+		color: #fff;	
+	}
+	&:first-last {
+		a{
+			color: red;	
+		}
+	}
+}
+.active {
+	background-color: #237ee5;
+	a{
+		color: #fff;	
+	}
+	&:first-child {
+		a{
+			color: #fff;	
+		}
+	}
+}
+
+.Header__wraper {
+	font-size: 12px;
+	width: 100%;
+	.banner {		
+		width: 100%;
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+		.logo {
+			width: 108px;
+			//background-color: blue;
+		}
+		.banner_right {
+			background-image: url("../js/components/imgs/cus_banner_cusc_aptech.png");
+			width: 872px;
+			.content {
+				text-align: right;
+				display: flex;
+				align-items: right;
+				justify-content: flex-end;
+				width: 100%;
+			}
+		}
+	}
+	.TopMenu{
+		width: 50%;
+		--color: black;
+		.ul-lv1, ul{
+			border-top: 1px solid #ddd;
+			border-bottom: 1px solid #ddd;
+			padding:0;
+			display: grid;
+			grid-template-areas: '. . . . . .';
+			grid-gap: 2px;
+			background-color: #fff;
+			border-radius: $radius;
+			border-top-right-radius: 0;
+			border-top-left-radius: 0;
+			list-style-type: none;
+			height: 27px;
+			width: 100%;
+			li{
+				display: block;	
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				--border-radius: 15px;
+				.show-li{
+					border-radius: 0;
+					display: block;
+					margin-top: -1px;
+					li{
+						display: block;
+						width: 100%;
+						text-align: center;
+						background-color: white;
+						&:hover{
+							background-color: #237ee5;
+							color:white;	
+						}
+						&:first-child {
+							border-radius: 0;	
+							//text-align: center;
+							padding-top: 1px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							background-color: #237ee5;
+						}
+						&:last-child {
+							border-radius: 0;
+						}
+					}
+				}
+				.ul-lv2{
+					border-radius: 0;
+					display: block;
+					margin-top: -1px;
+					li{
+						display: none;
+						width: 100%;
+						text-align: center;
+						&:first-child {
+							border-radius: 0;	
+							padding-top: 1px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+						}
+						&:last-child {
+							border-radius: 0;
+							&:hover{
+								background-color: #237ee5;
+							}
+						}
+					}
+				}
+				&:first-child {
+					border-radius: $radius;
+					border-top-left-radius: 0;
+					border-top-right-radius: 0;
+					border-bottom-right-radius: 0;
+				}
+				&:last-child {
+					&:hover{
+						background-color: #fff;
+						a{color: black;}
+					}
+					border-radius: $radius;
+					border-top-right-radius: 0;
+					border-top-left-radius: 0;
+					border-bottom-left-radius: 0;
+				}
+				&:hover{
+					@extend %active;
+					text-align: center;
+					--background-color: #237ee5;
+					color: white;
+					ul{
+						li{
+							color:black;
+
+						}
+					}
+				}
+				a{
+					color: black;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+	.BottomMenu {
+		width: 980px;
+		margin: 0 auto;
+		@extend .TopMenu;
+		position: relative;
+		ul { 
+			width: 100%;
+			border-bottom: none;
+			grid-template-areas: '. . . . . . . . .';
+			border-radius: $radius;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+			li{
+				&:first-child{
+					border-radius: $radius;
+					border-bottom-right-radius: 0;
+					border-bottom-left-radius: 0;
+					border-top-right-radius: 0;
+				}
+				&:last-child{
+					width: 100%;
+					border-radius: $radius;
+					border-bottom-right-radius: 0;
+					border-bottom-left-radius: 0;
+					border-top-right-radius: 0;
+				}
+				&:last-child:hover {
+					background-color: #237ee5;
+					border-radius: $radius;
+					border-bottom-right-radius: 0;
+					border-bottom-left-radius: 0;
+					border-top-left-radius: 0;
+				}
+			}
+		}
+	}
+	.sub-content{
+			width: 100%;
+			position: absolute;
+			top: 100%;
+			background-color: #237ee5;
+			border-radius: $radius;
+			border-top-left-radius: 0; 
+			border-top-right-radius: 0;
+			//position: relative;
+			// &:after{
+			// position: absolute;
+			// content:'';
+			// //background-color: #237ee5;
+			// background-color: red;
+			// width: 100%;
+			// left: 0;
+			// top: 100%;
+			// height: 100%;
+			// display: flex;
+			// justify-content: center;
+			// align-items: center;
+			// border-radius: 15px;
+			// border-top-left-radius: 0; 
+			// border-top-right-radius: 0;
+		//}	
+	}
+}
+
+@mixin responsive_320() {
+    @media #{$res_320} {
+        @content;
+    }
+}
+@mixin responsive_375() {
+    @media #{$res_375} {
+        @content;
+    }
+}
+@mixin responsive_425() {
+    @media #{$res_425} {
+        @content;
+    }
+}
+@mixin responsive_768() {
+    @media #{$res_768} {
+        @content;
+    }
+}
+@mixin responsive_992() {
+    @media #{$res_992} {
+        @content;
+    }
+}
+@mixin responsive_1024() {
+    @media #{$res_1024} {
+        @content;
+    }
+}
+@mixin responsive_1200() {
+    @media #{$res_1200} {
+        @content;
+    }
+}
+@include responsive_320{
+    .container{
+        margin: 0px 10px;
+    }
+ 
+ 
+    .content, .sidebar{
+        float:none;
+        width: 100%;
+    }
+}
+ 
+@include responsive_375{
+    .container{
+        margin: 0px 10px;
+    }
+ 
+    .content, .sidebar{
+        float:none;
+        width: 100%;
+    }
+}
+ 
+@include responsive_425{
+    .container{
+        margin: 0px 10px;
+    }
+ 
+    .content, .sidebar{
+        float:none;
+        width: 100%;
+    }
+}
+ 
+@include responsive_768{
+    .container{
+        margin: 0px 10px;
+    }
+ 
+}
+ 
+@include responsive_992{
+    .container{
+        margin: 0px 10px;
+    }
+ 
+}
+ 
+@include responsive_1024{
+    .container{
+        --margin: 0px 10px;
+        width: 100%;
+    }
+    .wraperHeader{
+    	width: 100%;
+    }
+ 
+}
+ 
+@include responsive_1200{
+    .container{
+        margin: 0px 10px;
+    }
+}
