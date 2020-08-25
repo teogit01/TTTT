@@ -42,6 +42,8 @@ class DMSinhVienController extends Controller
      */
     public function show($id)
     {
+
+
         $dmSinhVien = DMSinhVien::find($id);
         
         return response()->json(new DMSinhVienResource($dmSinhVien), 200);

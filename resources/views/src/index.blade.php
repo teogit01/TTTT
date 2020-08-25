@@ -6,6 +6,11 @@
 	
 	<link rel="stylesheet" type="text/css" href="{{mix('/css/app.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('/css/diemdanh.css')}}">
+
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 </head>
 <body>
 	<div class="wraper" style="margin-top: -10px;">
@@ -16,7 +21,7 @@
 	<br>
 
 	<div class="content">
-		<div id='listClass'></div>
+		<div id='class'></div>
 		
 	</div>
 

@@ -51,5 +51,5 @@ Route::delete('lhphan/{id}', 'Api\DMLopHocPhanController@destroy');
 Route::get('diemdanh', 'Api\DiemDanhController@index');
 Route::get('diemdanh/{id}', 'Api\DiemDanhController@show');
 Route::post('diemdanh', 'Api\DiemDanhController@store');
-Route::put('diemdanh/{id}', 'Api\DiemDanhController@update');
-Route::delete('diemdanh/{id}', 'Api\DiemDanhController@destroy');
+Route::put('diemdanh/{LHP_ID}', 'Api\DiemDanhController@update');
+Route::delete('diemdanh/{mssv}/{lhp_id}', 'Api\DiemDanhController@destroy');

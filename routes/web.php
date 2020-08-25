@@ -14,17 +14,31 @@ use Illuminate\Http\Response;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-route::prefix('diemdanh')->group(function(){
+route::prefix('/class')->group(function(){
 	route::get('/',function(){
-		return view('src/index',['data'=>'dataTest']);
+		return view('src/index');
+		//return DB::table('APTECH_DMDIEMTHI')->get();
+	});
+	route::get('/add',function(){
+		return view('src/index');
+		//return DB::table('APTECH_DMDIEMTHI')->get();
+	});
+	route::get('/{id}',function(){
+		return view('src/index');
 		//return DB::table('APTECH_DMDIEMTHI')->get();
 	});
 });
-
+use App\Models\DiemDanh;
+use App\Models\DMSinhVien;
+route::get('test',function(){
+		$diemDanh = DiemDanh::where('LHP_ID',6)->get();
+		return view('src/test',['diemdanh'=>$diemDanh]);
+		//return DB::table('APTECH_DMDIEMTHI')->get();
+	});
 route::prefix('admin')->group(function(){
 	route::get('/','Admin\AdminController@index')->name('admin.index');
 	// route::get('/',function(){
@@ -33,31 +47,4 @@ route::prefix('admin')->group(function(){
 });
 
 
-route::get('/testfilm','Admin\AdminController@test');
-route::get('/del/{id}','Admin\AdminController@del')->name('del');
 
-
-
-route::get('/film', function (){
-	//return Http::get('http://127.0.0.1:8001/api/films');
-	$data = Http::get('http://127.0.0.1:8000/api/films');
-	return $data;
-	//return view('add',['data' => $data]);
-});
-
-
-route::get('/film/{id}', function (Request $request){
-
-	return Http::get('http://127.0.0.1:8001/api/films/'.$request->id)->json();
-});
-
-route::get('/film/add', function (){
-	return view('add');
-});
-route::post('/film/add', function (Request $request){
-	return Http::post('http://127.0.0.1:8001/api/films',[$request]);
-})->name('add');
-
-route::delete('/film', function(Request $request){
-	return Http::delete('http://127.0.0.1:8001/api/films/'.$request->id);
-});

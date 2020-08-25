@@ -15,5 +15,5 @@ require('./bootstrap');
 require('./components/Example');
 require('./components/Header/Header');
 require('./components/Footer/Footer');
-require('./components/ListClass/ListClass');
+require('./components/Class/Main');
 

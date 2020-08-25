@@ -7,7 +7,7 @@ use App\Models\DiemDanh;
 
 class DMSinhVien extends Model
 {
-     protected $table = 'APTECH_DMSINHVIEN';
+     protected $table = 'APTECH_SINHVIEN';
 
     protected $primaryKey = 'SV_MSSV';
 
