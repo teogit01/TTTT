@@ -10,16 +10,19 @@ class DiemDanh extends Model
 {
     protected $table = 'APTECH_DIEMDANH';
 
-    protected $primaryKey = ['SV_MSSV', 'LOP_ID'];
+    protected $primaryKey = ['SV_MSSV', 'LHP_ID'];
 
-    protected $keyType = ['string', 'integer'];
+    protected $keyType = ['string', 'interger'];
 
     protected $fillable = [
         'SV_MSSV',
         'LHP_ID',
         'DIEM_DANH',
+        'SO_BUOI',
         'KQDD',
     ];
+
+    public $incrementing = false;
     
     public $timestamps = false;
 

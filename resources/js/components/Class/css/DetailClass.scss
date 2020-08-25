@@ -1,0 +1,64 @@
+.detail-class{
+	width: 100%;
+	--font-size: 10px;
+
+	padding:0 20px 20px 10px;
+	margin: 0 auto;
+	width: 1200px;
+
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 5px 5px 10px #ddd;
+	
+	.info {
+		display: flex;
+		margin: 20px;
+		// position: sticky;
+		// top: 0;
+		.label{
+			margin-top: 20px;
+		}
+		.add-student{
+			display: flex;
+			padding-top: 10px;
+			.btn{
+				height: 40px;
+				width: 30px;
+			}
+		}
+	}
+	.wrap_table{
+		display: flex;
+		//height: 300px;
+		//overflow: scroll;
+
+		.table_1{
+			width: 200px;
+		}
+		.table_2 {
+			min-width: 900px;
+			width: 1000px;
+			overflow: scroll;
+			.th{
+				&:hover{
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	
+	thead{
+		//border: 1px solid red;
+		//background-color: red;
+	}
+	.hover {
+		cursor: pointer;
+	}
+	.save {
+		text-align: right;
+		margin-right: 300px;
+		.btn {
+			width: 100px;
+		}
+	}
+}
