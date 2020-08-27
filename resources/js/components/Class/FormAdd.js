@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import randomId from 'randomstring';
+import { Redirect } from 'react-router-dom'
 
 import { Button, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -10,7 +11,12 @@ import './css/FormAdd.scss'
 
 class FormAdd extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
+		const token = localStorage.getItem('token')
+		let isLogin = true
+		if ( token == null){
+			isLogin = false
+		}
 		this.state = {
 			monhoc : [],
 			giaovien : [],
@@ -20,7 +26,9 @@ class FormAdd extends React.Component {
 			sltMon : '',
 			sltGv : '',
 
-			idClassCurrent : ''
+			idClassCurrent : '',
+			isLogin
+
 		}
 
 		this.onSubmit = this.onSubmit.bind(this)
@@ -32,11 +40,22 @@ class FormAdd extends React.Component {
 		
 	}
 	async componentDidMount() {
+		if (this.state.isLogin === false){
+			return 
+		}
+		
+		let newGiaovien = []
 
+		let msgv = localStorage.getItem('token')
+		
 		let monhoc = await callApi('monhoc', 'GET', null)
 		.then(res => monhoc = res.data )
-		let giaovien = await callApi('giaovien', 'GET', null)
-		.then(res => giaovien = res.data )
+		// let giaovien = await callApi('giaovien', 'GET', null)
+		// .then(res => giaovien = res.data )
+
+		let giaovien = []
+		await callApi(`giaovien/${msgv}`, 'GET', null)
+		.then(res => giaovien.push(res.data))
 
 		if(monhoc && giaovien){
 			this.setState({
@@ -70,8 +89,9 @@ class FormAdd extends React.Component {
 	}
 	async onSubmit(e){
 		e.preventDefault()
-		const { history } = this.props
 
+		const { history } = this.props
+		let msgv = localStorage.getItem('token')
 		// Lay LHP_ID hien tai trong csld 
 		let idClass = await callApi('lhphan', 'GET', null)
 		.then(res => res.data[res.data.length-1])
@@ -82,19 +102,19 @@ class FormAdd extends React.Component {
 
 		})
 		const { sltGv, sltMon, txtTen, txtTongBuoi, code, idClassCurrent } = this.state
+
 		const data = {
 			LHP_ID : idClassCurrent + 1,
-			GV_MSGV : sltGv,
+			//GV_MSGV : sltGv,
+			GV_MSGV : msgv,
 			MH_ID : sltMon,
 			LHP_MA : code,
 			LHP_TEN : txtTen,
 			LHP_TONGBUOI : txtTongBuoi,
 		}
 		callApi('lhphan/', 'POST', data)
-		.then(res => {
-			history.goBack()
-		})
-			
+		.then(res => history.push('/class'))
+		
 	}
 
 	// reset from
@@ -107,8 +127,10 @@ class FormAdd extends React.Component {
 		this.refs.sltGv.select.clearValue()
 	}
 	render(){
-		const { monhoc, giaovien, txtTen, sltMon, sltGv, txtTongBuoi, code, idClassCurrent } = this.state
-
+		const { monhoc, giaovien, txtTen, sltMon, sltGv, txtTongBuoi, code, idClassCurrent, isLogin } = this.state
+		if ( isLogin === false ){
+			return <Redirect to='/login' />
+		}	
 		const mon_options = monhoc.reduce((newMon, mon)=>{
 			newMon.push({'value' : mon.MH_ID, 'label' : mon.MH_TEN})
 			return newMon
@@ -204,7 +226,9 @@ class FormAdd extends React.Component {
 						
 					<label>Giáo viên</label>
 					<Select 
-						options={giaovien_options} 
+						options={giaovien_options}
+						value = {giaovien_options}
+						
 						name= "sltGv"
 						onChange = {this.handleChangGv}
 						ref='sltGv'

@@ -16,4 +16,5 @@ require('./components/Example');
 require('./components/Header/Header');
 require('./components/Footer/Footer');
 require('./components/Class/Main');
+require('./components/XTN');
 

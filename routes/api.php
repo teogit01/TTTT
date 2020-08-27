@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // DOANH MỤC MÔN HỌC
 Route::get('monhoc', 'Api\DMMonHocController@index');
 Route::get('monhoc/{id}', 'Api\DMMonHocController@show');
-Route::get('monhoc/{id}', 'Api\DMMonHocController@show');
+//Route::get('monhoc/{id}', 'Api\DMMonHocController@show');
 Route::post('monhoc', 'Api\DMMonHocController@store');
 Route::put('monhoc/{id}', 'Api\DMMonHocController@update');
 Route::delete('monhoc/{id}', 'Api\DMMonHocController@destroy');
@@ -42,7 +42,8 @@ Route::delete('sinhvien/{id}', 'Api\DMSinhVienController@destroy');
 
 // DOANH MỤC LỚP HỌC PHẦN
 Route::get('lhphan', 'Api\DMLopHocPhanController@index');
-Route::get('lhphan/{id}', 'Api\DMLopHocPhanController@show');
+Route::get('lhphan/{GV_MSGV}', 'Api\DMLopHocPhanController@show');
+Route::get('lhphan/{GV_MSGV}/{LHP_ID}', 'Api\DMLopHocPhanController@showHocPhan');
 Route::post('lhphan', 'Api\DMLopHocPhanController@store');
 Route::put('lhphan/{id}', 'Api\DMLopHocPhanController@update');
 Route::delete('lhphan/{id}', 'Api\DMLopHocPhanController@destroy');

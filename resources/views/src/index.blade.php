@@ -17,7 +17,6 @@
 		<header class="Header">
 			<div id='header'></div>
  		</header>	
-		
 	<br>
 
 	<div class="content">
@@ -25,6 +24,7 @@
 		
 	</div>
 
+	
 	<br>
  		<footer class="Footer">
  			<div id='footer'></div>

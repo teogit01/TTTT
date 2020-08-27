@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Button, TextField } from '@material-ui/core';
+import { Redirect } from 'react-router-dom'
 import Select from 'react-select';
 import callApi from './../../apiCaller/apiCaller'
 
@@ -8,7 +9,12 @@ import './css/DetailClass.scss'
 
 class DetailClass extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
+		const token = localStorage.getItem('token')
+		let isLogin = true
+		if ( token == null){
+			isLogin = false
+		}
 		this.state = {
 			
 			student_of_class : [],
@@ -21,7 +27,8 @@ class DetailClass extends React.Component {
 			clickDay : -1,
 
 			status : [],
-			days : []
+			days : [],
+			isLogin
 			
 		}
 		this.handleChangeAddStudent = this.handleChangeAddStudent.bind(this)
@@ -33,17 +40,23 @@ class DetailClass extends React.Component {
 	}
 
 	async componentDidMount(){
-		const id = this.props.match.params.id
+		if (this.state.isLogin === false){
+			return 
+		}
+		
+		let msgv = localStorage.getItem('token')
+		const { LHP_ID } = this.props.match.params
+		
 		// load tong so buoi hoc
-		let so_buoi = await callApi(`lhphan/${id}`, 'GET', null)
-		.then((res)=> so_buoi = res.data.LHP_TONGBUOI)
-		console.log(so_buoi)
+		let so_buoi = await callApi(`lhphan/${msgv}/${LHP_ID}`, 'GET', null)
+		.then((res)=> so_buoi = res.data[0].LHP_TONGBUOI)
+		
 		// load all student
 		let all_students = await callApi('sinhvien', 'GET', null)
 		.then((res)=> all_students = res.data)
 
 		// load student of class
-		let student_of_class = await callApi(`diemdanh/${id}`, 'GET', null)
+		let student_of_class = await callApi(`diemdanh/${LHP_ID}`, 'GET', null)
 		.then((res) => student_of_class = res.data)
 
 		// SV co the them vo lop
@@ -76,13 +89,13 @@ class DetailClass extends React.Component {
 		let days = []
 			student_of_class.forEach((item, index)=>{
 
-				for(let i = 1; i<=so_buoi; i++){
-					let data = {
-						mssv : item.SV_MSSV,
-						day : i,
-						value: false
-					}
-
+				for(let i = 1; i<=so_buoi+1; i++){
+						let data = {
+							mssv : item.SV_MSSV,
+							day : i,
+							value: false,
+							kq : i == so_buoi+1 ? true : false
+						}
 					status.forEach(el=>{
 						if (el.day == i && el.mssv == item.SV_MSSV){
 							data = {
@@ -90,6 +103,9 @@ class DetailClass extends React.Component {
 								day : i,
 								value: el.value == 'true' ? true : false
 							}	
+						}
+						if (i == so_buoi){
+
 						}	
 					})
 		
@@ -169,7 +185,8 @@ class DetailClass extends React.Component {
 	// save sinhh vien diem danh
 	handleSave(){
 		const { student_diemdanh } = this.state
-		const id_class = this.props.match.params.id
+		let msgv = localStorage.getItem('token')
+		const { LHP_ID } = this.props.match.params
 		
 		let data = student_diemdanh
 		data = data.map(item=>{
@@ -179,7 +196,7 @@ class DetailClass extends React.Component {
 
 		//console.log(data)
 		if (data.length != 0){
-			callApi(`diemdanh/${id_class}`, 'PUT', {data : data.toString()})
+			callApi(`diemdanh/${LHP_ID}`, 'PUT', {data : data.toString()})
 			.then(res=>this.setState({
 				student_diemdanh : []
 			}))	
@@ -195,17 +212,20 @@ class DetailClass extends React.Component {
 
 	// Click button add
 	async handleAddStudent(e){
+
+		let msgv = localStorage.getItem('token')
+		const { LHP_ID } = this.props.match.params
 		// clear value select
 		this.refs.sltStudent.select.clearValue()
 
 		const { student_add, total, student_of_class, student_can_add, student_diemdanh, days } = this.state
-		const id_class = this.props.match.params.id
+		
 		// start lay danh sach sinh vien duoc chon & them vao db
 		let new_student = []
 		student_add.forEach(el=>{
 			let data = {
 				SV_MSSV : el.student.SV_MSSV,
-				LHP_ID : parseInt(id_class),
+				LHP_ID : parseInt(LHP_ID),
 				DIEM_DANH : '',
 				SO_BUOI : total,
 				KQDD : 0
@@ -225,7 +245,7 @@ class DetailClass extends React.Component {
 		})
 		// end lay danh sach sinh vien duoc chon & them vao db
 		// start cap nhat danh sach sinh vien trong lop
-		let new_student_of_class = await callApi(`diemdanh/${id_class}`, 'GET', null)
+		let new_student_of_class = await callApi(`diemdanh/${LHP_ID}`, 'GET', null)
 		.then(res=> new_student_of_class = res.data)
 		
 		// end cap nhat danh sach sinh vien trong lop
@@ -234,11 +254,12 @@ class DetailClass extends React.Component {
 		//let new_student_of_class = student_of_class
 		student_add.forEach((item, index)=>{
 
-			for(let i = 1; i<=30; i++){
+			for(let i = 1; i<=total+1; i++){
 				let data = {
 					mssv : item.value,
 					day : i,
-					value: false
+					value: false,
+					kq : i == total+1 ? true : false
 				}
 				newDays.push(data)
 			}
@@ -254,12 +275,12 @@ class DetailClass extends React.Component {
 	// function del student from class
 	del(mssv){
 		const { student_of_class, student_can_add } = this.state
-		const id_class = this.props.match.params.id
+		const { LHP_ID } = this.props.match.params
 		return () => {
 			let new_student_of_class = student_of_class
 			let new_student_can_add = student_can_add
 			// start xoa sinh vien trong lop (mssv, lhp_id), neu thanh cong thi them vua xoa vao student_can_add
-			callApi(`diemdanh/${mssv}/${id_class}`, 'DELETE', null)
+			callApi(`diemdanh/${mssv}/${LHP_ID}`, 'DELETE', null)
 			.then(res=>{
 				// start them sv vua xoa vao student_can_add
 				student_of_class.forEach((el, index)=>{
@@ -327,7 +348,11 @@ class DetailClass extends React.Component {
 				clickDay, 
 				status, 
 				student_diemdanh,
-				days } = this.state
+				days,
+				isLogin } = this.state
+		if ( isLogin === false ){
+			return <Redirect to='/login' />
+		}	
 		// start tao danh sach student_can_add dung format
 		const list_student = student_can_add.reduce((newSV, studentCurrent)=>{
 			newSV.push(
@@ -340,7 +365,7 @@ class DetailClass extends React.Component {
 		// end tao danh sach student_can_add dung format
 		// tao diem danh
 		let titles = []
-		for(let i=1; i<=total; i++){
+		for(let i=1; i<=total+1; i++){
 			titles.push(i)
 		}
 		
@@ -421,21 +446,25 @@ class DetailClass extends React.Component {
 													if (day.mssv == student.SV_MSSV){
 														return (
 															<td key={index}>
-															<input 
-																type='checkbox' 
-																name='check' 
-																disabled= { (day.day != this.state.clickDay) ? true : false }																checked = { day.value }
-																checked = { day.value }
-																onChange={this.handleChangeCheckBox(day.mssv, day.day)}
-																/>
+															
+																{day.kq == true ? 
+																	<div>KQ</div> : 
+																	<input 
+																		type='checkbox' 
+																		name='check' 
+																		disabled= { (day.day != this.state.clickDay) ? true : false }																checked = { day.value }
+																		checked = { day.value }
+																		onChange={this.handleChangeCheckBox(day.mssv, day.day)}
+																		/>
+																}
+																
 															</td>
 														)
 													}
 												})
 											}
 											</tr>
-											)
-										
+										)
 									})
 							}
 							</tbody>

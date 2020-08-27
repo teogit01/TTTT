@@ -16,8 +16,10 @@ class DMGiaoVienController extends Controller
      */
     public function index()
     {
-        $dmGiaoVien = DMGiaoVienResource::collection(DMGiaoVien::all());
-        
+
+        //$dmGiaoVien = DMGiaoVienResource::collection(DMGiaoVien::all());
+
+        $dmGiaoVien = DMGiaoVien::all();
         return response()->json($dmGiaoVien, 200);
     }
 

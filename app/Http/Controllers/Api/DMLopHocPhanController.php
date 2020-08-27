@@ -40,13 +40,20 @@ class DMLopHocPhanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $dmLopHocPhan = DMLopHocPhan::find($id);
+    public function show($GV_MSGV)
+    {   
+        $dmLopHocPhan = DMLopHocPhan::where('GV_MSGV', $GV_MSGV)->get();
         
         return response()->json(new DMLopHocPhanResource($dmLopHocPhan), 200);
     }
 
+    public function showHocPhan($GV_MSGV, $LHP_ID)
+    {   
+
+        $dmLopHocPhan = DMLopHocPhan::where([['GV_MSGV', $GV_MSGV],['LHP_ID',$LHP_ID]])->get();
+        
+        return response()->json(new DMLopHocPhanResource($dmLopHocPhan), 200);
+    }
     /**
      * Update the specified resource in storage.
      *

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Redirect } from 'react-router-dom'
 
 //import '../../../sass/listClass.scss'
 import './css/ListClass.scss'
@@ -8,21 +9,32 @@ import callApi from './../../apiCaller/apiCaller'
 class ListClass extends Component {
 
 	constructor(props) {
-	  super(props);
+	  super(props)
+	  const token = localStorage.getItem('token')
+	  let isLogin = true
+	  if ( token == null){
+	  	isLogin = false
+	  }
 	  this.state = {
-	  	list_class : []
+	  	list_class : [],
+	  	isLogin,
+	  	msgv : token
 	  }
 	  this.del = this.del.bind(this)
 	  this.detail = this.detail.bind(this)
 	}
 
 	async componentDidMount(){
-		let list_class = await callApi('lhphan', 'GET', null)
+		if (this.state.isLogin === false){
+			return 
+		}		
+		let { msgv } = this.state
+		let list_class = await callApi(`lhphan/${msgv}`, 'GET', null)
 		.then(res => list_class = res.data)
 		this.setState({
-			list_class : list_class
+				list_class : list_class
 		})
-		}
+	}
 	del(id){
 		return () => {
 
@@ -72,18 +84,23 @@ class ListClass extends Component {
 		}
 	}
 
-	detail(id, tongbuoi){
+	detail(LHP_ID){
 		return () => {
 			const { history } = this.props
 			const pathname = history.location.pathname
-			history.push(`${pathname}/${id}`)
-			history.tongbuoi = tongbuoi;			
+			history.push(`${pathname}/${LHP_ID}`)
+			
 			//this.props.tongbuoi = tongbuoi
 		}
 	}
 	
 	render(){
-		const { list_class } = this.state
+		//const { history } = this.props
+		const { list_class, isLogin, msgv } = this.state
+		if ( isLogin === false ){
+			return <Redirect to='/login' />
+		}	
+
 		return (
 	        <div className='ListClass'>
 	        	<table className='table table-hover'>
@@ -110,7 +127,7 @@ class ListClass extends Component {
 	        							<td className='hover'>
 	        								<span onClick={this.del(item.LHP_ID)}>Del</span>
 	        								&nbsp;&nbsp;&nbsp;
-	        								<span onClick={this.detail(item.LHP_ID, item.LHP_TONGBUOI)}>Detail</span>
+	        								<span onClick={this.detail(item.LHP_ID)}>Detail</span>
 	        							</td>
 	        						</tr>
 	        					)
