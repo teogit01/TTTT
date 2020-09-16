@@ -77,4 +77,12 @@ class DMSinhVienController extends Controller
 
         return response()->json($dmSinhVien, 204);
     }
+
+    public function getListSV($lopID)
+    {
+        $listSV = DMSinhVien::where('LOP_ID', $lopID)->get();
+
+        return response()->json( $listSV, 200);
+    }
+
 }

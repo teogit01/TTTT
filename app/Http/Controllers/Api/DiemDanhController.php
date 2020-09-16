@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DiemDanh as DiemDanhResource;
+use App\Models\CTDiemDanh;
 use App\Models\DiemDanh;
 use App\Models\DMSinhVien;
+use App\Models\DMMonHoc;
 
 class DiemDanhController extends Controller
 {
@@ -30,10 +32,28 @@ class DiemDanhController extends Controller
      */
     public function store(Request $request)
     {
-        $diemDanh = DiemDanh::create($request->all());
+        $soBuoi = DMMonHoc::where('MH_ID', $request->MH_ID)->first();
+        $data = $request->all();
+        $data['SO_BUOI'] = $soBuoi->MH_SOBUOI;
+        $lopID = $request->LOP_ID;
+        $listSV = DMSinhVien::where('LOP_ID', $lopID)->get();
 
-        return response()->json(new DiemDanhResource($diemDanh), 201);
+        $diemDanh = DiemDanh::create($data);
+
+        foreach($listSV as $key => $item) {
+            
+            $ctDiemDanh = new CTDiemDanh();
+            // $ctDiemDanh->CTDD_ID = 'CTyyy'.$key;
+            $ctDiemDanh->DD_ID = $request->DD_ID;
+            $ctDiemDanh->SV_MSSV = $item->SV_MSSV;
+            $ctDiemDanh->DIEM_DANH = '';
+            $ctDiemDanh->KQDD = '';
+            $ctDiemDanh->save();
+        }
+        return 'ok';
+        // return response()->json(new DiemDanhResource($diemDanh), 201);
     }
+
 
     /**
      * Display the specified resource.
@@ -60,130 +80,130 @@ class DiemDanhController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $LHP_ID)
-    {
-        // $diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV','B11']]);
-        // return $diemDanh->update($request->all());
+//     public function update(Request $request, $LHP_ID)
+//     {
+//         // $diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV','B11']]);
+//         // return $diemDanh->update($request->all());
 
-        //$diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV','B22']]);
-            // return $diemDanh->get();
-        // if ( ($diemDanh->get('DIEM_DANH')[0]->DIEM_DANH == '') ){
-        //     //return $diemDanh->get('DIEM_DANH')[0]->DIEM_DANH;
-        //     return 'null';
-        // } else {
-        //     return $diemDanh->get('DIEM_DANH');
+//         //$diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV','B22']]);
+//             // return $diemDanh->get();
+//         // if ( ($diemDanh->get('DIEM_DANH')[0]->DIEM_DANH == '') ){
+//         //     //return $diemDanh->get('DIEM_DANH')[0]->DIEM_DANH;
+//         //     return 'null';
+//         // } else {
+//         //     return $diemDanh->get('DIEM_DANH');
 
-        // }
+//         // }
 
 
-        // $data_req = $request->data;
-        // $data_req = $data_req;
-        // // loai bo []
-        // $data_req = substr( $data_req, 1, strlen($data_req)-2);
-        // // string->array
-        // $data_req = explode (', ' ,$data_req);
+//         // $data_req = $request->data;
+//         // $data_req = $data_req;
+//         // // loai bo []
+//         // $data_req = substr( $data_req, 1, strlen($data_req)-2);
+//         // // string->array
+//         // $data_req = explode (', ' ,$data_req);
 
         
-        // foreach ($data_req as $key => $value) {
-        //     $index = 0;
-        //     for($i=0; $i<strlen($value); $i++){
-        //         //echo $i.'=';
-        //         if ($value[$i] == ":"){
-        //             $index = $i;
-        //         }
-        //     }
-        //     $number_day = substr($value, 1, $index-1);
-        //     $mssv= substr( $value, $index+1,strlen($value)-strlen($number_day)-3);
-        //     echo $number_day.'-';
-        //     echo $mssv.'-';
-        // }
-        // return 'ok';
+//         // foreach ($data_req as $key => $value) {
+//         //     $index = 0;
+//         //     for($i=0; $i<strlen($value); $i++){
+//         //         //echo $i.'=';
+//         //         if ($value[$i] == ":"){
+//         //             $index = $i;
+//         //         }
+//         //     }
+//         //     $number_day = substr($value, 1, $index-1);
+//         //     $mssv= substr( $value, $index+1,strlen($value)-strlen($number_day)-3);
+//         //     echo $number_day.'-';
+//         //     echo $mssv.'-';
+//         // }
+//         // return 'ok';
 
 
-        $data_req = $request->data;
-        // loai bo []
-        //$data_req = substr( $data_req, 1, strlen($data_req)-2);
-        //return $data_req;
-        // string->array
-        $data_req = explode (',' ,$data_req);
-        foreach ($data_req as $key => $value)
-        {
-            $index = 0;
-            for($i=0; $i<strlen($value); $i++){
-                if ($value[$i] == ":"){
-                    $index = $i;
-                }
-            }
+//         $data_req = $request->data;
+//         // loai bo []
+//         //$data_req = substr( $data_req, 1, strlen($data_req)-2);
+//         //return $data_req;
+//         // string->array
+//         $data_req = explode (',' ,$data_req);
+//         foreach ($data_req as $key => $value)
+//         {
+//             $index = 0;
+//             for($i=0; $i<strlen($value); $i++){
+//                 if ($value[$i] == ":"){
+//                     $index = $i;
+//                 }
+//             }
 
-            $day = substr($value, 0, $index);
+//             $day = substr($value, 0, $index);
 
 
-            //$SV_MSSV= substr( $value, $index+1, strlen($value)-strlen($day)-3);
-            $SV_MSSV= substr( $value, $index+1, strlen($value)-strlen($day)-1);
-//            return $SV_MSSV;
+//             //$SV_MSSV= substr( $value, $index+1, strlen($value)-strlen($day)-3);
+//             $SV_MSSV= substr( $value, $index+1, strlen($value)-strlen($day)-1);
+// //            return $SV_MSSV;
 
-            $diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV',$SV_MSSV]]);
-            // return $diemDanh->get();
-            //return $diemDanh->get('DIEM_DANH');
-            //return 'ok';
-            // neu da co gia tri cu cua diem danh
-            if ( ($diemDanh->get('DIEM_DANH')[0]->DIEM_DANH == '') )
-            {   
-                //$data_req = implode(', ' ,$data_req);
+//             $diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV',$SV_MSSV]]);
+//             // return $diemDanh->get();
+//             //return $diemDanh->get('DIEM_DANH');
+//             //return 'ok';
+//             // neu da co gia tri cu cua diem danh
+//             if ( ($diemDanh->get('DIEM_DANH')[0]->DIEM_DANH == '') )
+//             {   
+//                 //$data_req = implode(', ' ,$data_req);
                 
-                $new_value = $day.':true';
-                // luu csdl
-                $diemDanh->update(['DIEM_DANH'=>$new_value]);
+//                 $new_value = $day.':true';
+//                 // luu csdl
+//                 $diemDanh->update(['DIEM_DANH'=>$new_value]);
 
-            } else 
-            {
-                // gia tri diem danh cu cua sinh vien SV_MSSV trong LHP_ID
-                $old_data = $diemDanh->get('DIEM_DANH')[0]->DIEM_DANH; 
-                // convert data string -> array
-                $old_data = explode (', ', $old_data);
+//             } else 
+//             {
+//                 // gia tri diem danh cu cua sinh vien SV_MSSV trong LHP_ID
+//                 $old_data = $diemDanh->get('DIEM_DANH')[0]->DIEM_DANH; 
+//                 // convert data string -> array
+//                 $old_data = explode (', ', $old_data);
                 
-                $data_will_update = $old_data;
-                // duyet tung phan tu cu xem co cap nhat
-                // result old_data da cap nhat
-                $check = 0;
-                foreach ($old_data as $old_k => $old_v){
+//                 $data_will_update = $old_data;
+//                 // duyet tung phan tu cu xem co cap nhat
+//                 // result old_data da cap nhat
+//                 $check = 0;
+//                 foreach ($old_data as $old_k => $old_v){
 
-                    $index = 0;
-                    for($i=0; $i<strlen($old_v); $i++){
-                        if ($old_v[$i] == ":"){
-                            $index = $i;
-                        }
-                    }
-                    $old_day = substr($old_v, 0, $index);
+//                     $index = 0;
+//                     for($i=0; $i<strlen($old_v); $i++){
+//                         if ($old_v[$i] == ":"){
+//                             $index = $i;
+//                         }
+//                     }
+//                     $old_day = substr($old_v, 0, $index);
 
-                    if ($old_day === $day){
-                        $check = 1;
-                        // neu diem danh co chinh sua
-                        // true->false, false->true
-                        if( $old_v[$index+1] == 't'){
+//                     if ($old_day === $day){
+//                         $check = 1;
+//                         // neu diem danh co chinh sua
+//                         // true->false, false->true
+//                         if( $old_v[$index+1] == 't'){
                             
-                            $data_will_update[$old_k] = $day.':false';
-                            $diemDanh->update(['DIEM_DANH'=>implode(', ' ,$data_will_update)]);
+//                             $data_will_update[$old_k] = $day.':false';
+//                             $diemDanh->update(['DIEM_DANH'=>implode(', ' ,$data_will_update)]);
 
-                        } else {
+//                         } else {
 
-                            $data_will_update[$old_k] = $day.':true';
-                            $diemDanh->update(['DIEM_DANH'=>implode(', ' ,$data_will_update)]);
-                        }
-                    } 
-                }
-                // neu check thi them moi
-                if ($check == 0){
+//                             $data_will_update[$old_k] = $day.':true';
+//                             $diemDanh->update(['DIEM_DANH'=>implode(', ' ,$data_will_update)]);
+//                         }
+//                     } 
+//                 }
+//                 // neu check thi them moi
+//                 if ($check == 0){
 
-                    $old_data = implode(', ' ,$old_data);
-                    $new_data = $old_data.', '.$day.':true';
-                    // luu csdl
-                    $diemDanh->update(['DIEM_DANH'=>$new_data]);
-                }  
-            }
-        }
-        return 'ok';
-    }
+//                     $old_data = implode(', ' ,$old_data);
+//                     $new_data = $old_data.', '.$day.':true';
+//                     // luu csdl
+//                     $diemDanh->update(['DIEM_DANH'=>$new_data]);
+//                 }  
+//             }
+//         }
+//         return 'ok';
+//     }
 
     /**
      * Remove the specified resource from storage.

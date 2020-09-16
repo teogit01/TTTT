@@ -18,7 +18,8 @@ class DMGiaoVien extends JsonResource
             'GV_MSGV' => $this->GV_MSGV,
             'GV_HOTEN' => $this->GV_HOTEN,
             'GV_DIENTHOAI' => $this->GV_DIENTHOAI,
-            'GV_EMAIL' => $this->GV_EMAIL
+            'GV_EMAIL' => $this->GV_EMAIL,
+            'GV_ROLE'  => $this->GV_ROLE
         ];
     }
 }

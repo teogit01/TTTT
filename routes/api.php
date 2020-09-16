@@ -39,17 +39,22 @@ Route::get('sinhvien/{id}', 'Api\DMSinhVienController@show');
 Route::post('sinhvien', 'Api\DMGiaoSinhController@store');
 Route::put('sinhvien/{id}', 'Api\DMSinhVienController@update');
 Route::delete('sinhvien/{id}', 'Api\DMSinhVienController@destroy');
-
-// DOANH MỤC LỚP HỌC PHẦN
-Route::get('lhphan', 'Api\DMLopHocPhanController@index');
-Route::get('lhphan/{id}', 'Api\DMLopHocPhanController@show');
-Route::post('lhphan', 'Api\DMLopHocPhanController@store');
-Route::put('lhphan/{id}', 'Api\DMLopHocPhanController@update');
-Route::delete('lhphan/{id}', 'Api\DMLopHocPhanController@destroy');
+Route::get('danhsachsv/{lop_id}', 'Api\DMSinhVienController@getListSV');
 
 // ĐIỂM DANH
 Route::get('diemdanh', 'Api\DiemDanhController@index');
-Route::get('diemdanh/{id}', 'Api\DiemDanhController@show');
+Route::get('diemdanh/{dd_id}', 'Api\DiemDanhController@show');
 Route::post('diemdanh', 'Api\DiemDanhController@store');
-Route::put('diemdanh/{LHP_ID}', 'Api\DiemDanhController@update');
-Route::delete('diemdanh/{mssv}/{lhp_id}', 'Api\DiemDanhController@destroy');
+Route::put('diemdanh/{dd_id}', 'Api\DiemDanhController@update');
+Route::delete('diemdanh/{dd_id}', 'Api\DiemDanhController@destroy');
+
+// LỚP
+Route::get('lop', 'Api\DMLopController@index');
+Route::get('lop/{id}', 'Api\DMLopController@show');
+
+// CHI TIẾT ĐIỂM DANH
+Route::get('ctdiemdanh', 'Api\CTDiemDanhController@index');
+Route::get('ctdiemdanh/{ctdd_id}', 'Api\CTDiemDanhController@show');
+Route::post('ctdiemdanh', 'Api\CTDiemDanhController@store');
+Route::put('ctdiemdanh/{ctdd_id}', 'Api\CTDiemDanhController@update');
+Route::delete('ctdiemdanh/{ctdd_id}', 'Api\CTDiemDanhController@destroy');

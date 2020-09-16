@@ -48,3 +48,7 @@ route::prefix('admin')->group(function(){
 
 
 
+
+Route::get('/test', function () {
+    return view('layouts.admin');
+});
