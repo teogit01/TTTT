@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DMLopHocPhan;
 use App\Models\DMSinhVien;
+use App\Models\DMGiaoVien;
+use App\Models\DMLop;
+use App\Models\CTDD;
+use App\Models\DMMonHoc;
 
 class DiemDanh extends Model
 {
@@ -15,24 +19,33 @@ class DiemDanh extends Model
     protected $keyType = ['string', 'interger'];
 
     protected $fillable = [
-        'SV_MSSV',
-        'LHP_ID',
-        'DIEM_DANH',
+        'DD_ID',
+        'LOP_ID',
+        'MH_ID',
+        'GV_MSGV',
         'SO_BUOI',
-        'KQDD',
+        'TRANG_THAI'
     ];
 
     public $incrementing = false;
     
     public $timestamps = false;
 
-    public function dmLopHocPhan()
-    {
-        return $this->belongsTo(DMLopHocPhan::class, 'LHP_ID', 'LHP_ID');
-    }
 
-    public function dmSinhVien()
+    public function dm_ctdd()
     {
-        return $this->belongsTo(DMSinhVien::class, 'SV_MSSV', 'SV_MSSV');
+        return $this->HasMany(CTDD::class, 'DD_ID', 'DD_ID');
+    }
+    public function dm_lop()
+    {
+        return $this->belongsTo(DMLop::class, 'LOP_ID', 'LOP_ID');
+    }
+    public function dm_mon()
+    {
+        return $this->belongsTo(DMMonHoc::class, 'MH_ID', 'MH_ID');
+    }
+    public function dm_gv()
+    {
+        return $this->belongsTo(DMGiaoVien::class, 'GV_MSGV', 'GV_MSGV');
     }
 }

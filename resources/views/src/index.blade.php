@@ -20,7 +20,7 @@
 	<br>
 
 	<div class="content">
-		<div id='class'></div>
+		<div id='diemdanh'></div>
 		
 	</div>
 

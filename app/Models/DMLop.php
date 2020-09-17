@@ -25,4 +25,5 @@ class DMLop extends Model
     ];
 
     public $timestamps = false;
+
 }

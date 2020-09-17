@@ -1,0 +1,42 @@
+.form-wrapper {
+
+	form{
+		padding:20px;
+		margin: 0 auto;
+		width: 800px;
+		margin-top: 20px;
+		
+		background-color: #fff;
+		border-radius: 10px;
+		box-shadow: 5px 5px 10px #ddd;
+		
+		.form-control {
+			//height: 20px;
+		}
+		.control-button{
+			display: flex;
+			justify-content: flex-end;
+
+			.btn {
+				margin-left: 5px;
+				width: 100px;
+			}
+		}
+
+
+		.w-80{
+			width: 80%;
+			margin-right: 5%;
+		}
+		.w-20{
+			width: 15%;
+		}
+		.mon-hoc{
+			display: flex;
+		}
+		.f-right{
+			text-align: right;
+			width: 83%;
+		}
+	}
+}

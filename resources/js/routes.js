@@ -1,5 +1,5 @@
 import React from 'react'
-import FormAdd from './components/Class/FormAdd'
+import FormAdd from './components/DiemDanh/FormAdd'
 import NotFound from './components/NotFound'
 
 const routes = [

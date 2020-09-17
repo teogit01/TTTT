@@ -31,6 +31,10 @@ route::prefix('/class')->group(function(){
 		//return DB::table('APTECH_DMDIEMTHI')->get();
 	});
 });
+route::get('/diemdanh/all',function(){
+	return view('src/index');
+		//return DB::table('APTECH_DMDIEMTHI')->get();
+});
 route::get('/login',function(){
 	return view('src/index');
 		//return DB::table('APTECH_DMDIEMTHI')->get();
@@ -39,7 +43,19 @@ route::get('/logout',function(){
 	return view('src/index');
 		//return DB::table('APTECH_DMDIEMTHI')->get();
 });
-route::get('/add',function(){
+route::get('/diemdanh/add',function(){
+	return view('src/index');
+		//return DB::table('APTECH_DMDIEMTHI')->get();
+});
+route::get('/diemdanh',function(){
+	return view('src/index');
+		//return DB::table('APTECH_DMDIEMTHI')->get();
+});
+route::get('/diemdanh/detail/{id}',function(){
+	return view('src/index');
+		//return DB::table('APTECH_DMDIEMTHI')->get();
+});
+route::get('/diemdanh/{id}',function(){
 	return view('src/index');
 		//return DB::table('APTECH_DMDIEMTHI')->get();
 });

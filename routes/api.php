@@ -36,6 +36,12 @@ Route::delete('giaovien/{id}', 'Api\DMGiaoVienController@destroy');
 // DOANH MỤC SINH VIÊN
 Route::get('sinhvien', 'Api\DMSinhVienController@index');
 Route::get('sinhvien/{id}', 'Api\DMSinhVienController@show');
+
+Route::get('sv_of_lop/{LOP_ID}', 'Api\DMSinhVienController@sv_of_lop');
+Route::get('sv_khac_lop/{LOP_ID}', 'Api\DMSinhVienController@sv_khac_lop');
+Route::get('sv_of_ctdd/{DD_ID}', 'Api\DMSinhVienController@sv_of_ctdd');
+Route::get('sv_khac_ctdd/{DD_ID}', 'Api\DMSinhVienController@sv_khac_ctdd');
+
 Route::post('sinhvien', 'Api\DMGiaoSinhController@store');
 Route::put('sinhvien/{id}', 'Api\DMSinhVienController@update');
 Route::delete('sinhvien/{id}', 'Api\DMSinhVienController@destroy');
@@ -51,6 +57,28 @@ Route::delete('lhphan/{id}', 'Api\DMLopHocPhanController@destroy');
 // ĐIỂM DANH
 Route::get('diemdanh', 'Api\DiemDanhController@index');
 Route::get('diemdanh/{id}', 'Api\DiemDanhController@show');
+Route::get('diemdanh_gv/{GV_MSGV}', 'Api\DiemDanhController@dd_of_gv');
 Route::post('diemdanh', 'Api\DiemDanhController@store');
-Route::put('diemdanh/{LHP_ID}', 'Api\DiemDanhController@update');
-Route::delete('diemdanh/{mssv}/{lhp_id}', 'Api\DiemDanhController@destroy');
+Route::put('diemdanh/{DD_ID}', 'Api\DiemDanhController@update');
+Route::delete('diemdanh/{id}', 'Api\DiemDanhController@destroy');
+
+// DOANH MỤC LỚP
+Route::get('lop', 'Api\DMLopController@index');
+// Route::get('lop/{GV_MSGV}', 'Api\DMLopController@show');
+// Route::get('lop/{GV_MSGV}/{LHP_ID}', 'Api\DMLopController@showHocPhan');
+// Route::post('lop', 'Api\DMLopController@store');
+// Route::put('lop/{id}', 'Api\DMLopController@update');
+// Route::delete('lop/{id}', 'Api\DMLopController@destroy');
+
+// chi tiet ĐIỂM DANH
+Route::get('ctdd', 'Api\CTDDController@index');
+Route::get('ctdd_of_lop/{DD_ID}', 'Api\CTDDController@ctdd_of_lop');
+//Route::get('diemdanh/{id}', 'Api\DiemDanhController@show');
+
+// Lay ctdd theo mssv
+Route::get('ctdd/sv/{DD_ID}/{SV_MSSV}', 'Api\CTDDController@ctdd_of_sv');
+Route::post('ctdd/','Api\CTDDController@store');
+Route::put('ctdd/{DD_ID}', 'Api\CTDDController@update');
+Route::delete('ctdd/del/{DD_ID}/{SV_MSSV}', 'Api\CTDDController@delete_ctdd');
+// delete ctdd cua lop
+Route::delete('ctdd/lop/{id}', 'Api\CTDDController@delete_dd_lop');
