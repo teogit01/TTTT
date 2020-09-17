@@ -17,14 +17,14 @@
 		<header class="Header">
 			<div id='header'></div>
  		</header>	
-		
 	<br>
 
 	<div class="content">
-		<div id='class'></div>
+		<div id='diemdanh'></div>
 		
 	</div>
 
+	
 	<br>
  		<footer class="Footer">
  			<div id='footer'></div>

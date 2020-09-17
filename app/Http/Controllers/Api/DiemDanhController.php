@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Resources\DiemDanh as DiemDanhResource;
 use App\Models\DiemDanh;
 use App\Models\DMSinhVien;
+use App\Models\DMLop;
+use App\Models\CTDD;
+use Illuminate\Support\Str;
 
 class DiemDanhController extends Controller
 {
@@ -17,8 +20,17 @@ class DiemDanhController extends Controller
      */
     public function index()
     {
-        $diemDanh = DiemDanhResource::collection(DiemDanh::all());
-        
+        //$diemDanh = DiemDanhResource::collection(DiemDanh::all());
+        //$diemDanh = DiemDanh::all()->with('dm_lop');
+        $diemDanh = DiemDanh::with(['dm_lop','dm_gv','dm_mon'])->get();
+        return response()->json($diemDanh, 200);
+    }
+    public function dd_of_gv($GV_MSGV)
+    {
+        //$diemDanh = DiemDanhResource::collection(DiemDanh::all());
+        //$diemDanh = DiemDanh::all()->with('dm_lop');
+        $diemDanh = DiemDanh::where('GV_MSGV',$GV_MSGV)->with(['dm_lop','dm_gv','dm_mon'])->get();
+        return $diemDanh;
         return response()->json($diemDanh, 200);
     }
 
@@ -30,9 +42,46 @@ class DiemDanhController extends Controller
      */
     public function store(Request $request)
     {
+        //$data = [];
+        // for($i=0; $i<$request->SO_BUOI; $i++){
+        //     $data[] = (object)[
+        //         'day' => 0, 
+        //         'buoi'=> 0,
+        //         'value'=> false
+        //     ];
+        // }
+        // //return is_array($data);
+        // foreach($data as $d){
+        //     echo $d->buoi.'--';
+        // }
         $diemDanh = DiemDanh::create($request->all());
+        $dssv = DMSinhVien::where('LOP_ID',$request->LOP_ID)->get();
 
-        return response()->json(new DiemDanhResource($diemDanh), 201);
+        //if ( isset($request->SO_BUOI) && ($request->SO_BUOI > 0) ){
+            
+            foreach($dssv as $value){
+              //  echo $value->SV_MSSV;
+                $ctdd = new CTDD();
+                $ctdd->CTDD_ID = 'CT'.rand(10,100000);
+                $ctdd->DD_ID = $request->DD_ID;
+                $ctdd->SV_MSSV = $value->SV_MSSV;
+                
+                $data = [];
+                for($i=0; $i<$request->SO_BUOI; $i++){
+                    $data[] = (object)[
+                        'day' => '  ',
+                        'buoi'=> $i+1,
+                        'value'=> false
+                    ];
+                }
+                $ctdd->DIEM_DANH = json_encode($data);
+                $ctdd->KQ = false;  
+                $ctdd->save();
+            }
+        //}
+        
+        //return response()->json(new DiemDanhResource($diemDanh), 201);
+        return 'ok';
     }
 
     /**
@@ -45,7 +94,10 @@ class DiemDanhController extends Controller
     {
         //$diemDanh = DiemDanh::where([['LHP_ID',$id],['SV_MSSV',$mssv]])->get();
         //all student of class id
-        $diemDanh = DiemDanh::where('LHP_ID',$id)->with('dmSinhVien')->get();    
+        // $diemDanh = DiemDanh::where('DD_ID',$id)->with(''dmSinhVien'')->get();    
+        $diemDanh = DiemDanh::where('DD_ID',$id)->with(['dm_ctdd','dm_lop','dm_mon'])->get();    
+        //$diemDanh = DiemDanh::where('DD_ID',$id)->get();
+        return $diemDanh;
         
         // return $student = DMSinhVien::all();
 
@@ -60,128 +112,16 @@ class DiemDanhController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $LHP_ID)
+    public function update($DD_ID)
     {
-        // $diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV','B11']]);
-        // return $diemDanh->update($request->all());
-
-        //$diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV','B22']]);
-            // return $diemDanh->get();
-        // if ( ($diemDanh->get('DIEM_DANH')[0]->DIEM_DANH == '') ){
-        //     //return $diemDanh->get('DIEM_DANH')[0]->DIEM_DANH;
-        //     return 'null';
-        // } else {
-        //     return $diemDanh->get('DIEM_DANH');
-
-        // }
-
-
-        // $data_req = $request->data;
-        // $data_req = $data_req;
-        // // loai bo []
-        // $data_req = substr( $data_req, 1, strlen($data_req)-2);
-        // // string->array
-        // $data_req = explode (', ' ,$data_req);
-
-        
-        // foreach ($data_req as $key => $value) {
-        //     $index = 0;
-        //     for($i=0; $i<strlen($value); $i++){
-        //         //echo $i.'=';
-        //         if ($value[$i] == ":"){
-        //             $index = $i;
-        //         }
-        //     }
-        //     $number_day = substr($value, 1, $index-1);
-        //     $mssv= substr( $value, $index+1,strlen($value)-strlen($number_day)-3);
-        //     echo $number_day.'-';
-        //     echo $mssv.'-';
-        // }
-        // return 'ok';
-
-
-        $data_req = $request->data;
-        // loai bo []
-        //$data_req = substr( $data_req, 1, strlen($data_req)-2);
-        //return $data_req;
-        // string->array
-        $data_req = explode (',' ,$data_req);
-        foreach ($data_req as $key => $value)
-        {
-            $index = 0;
-            for($i=0; $i<strlen($value); $i++){
-                if ($value[$i] == ":"){
-                    $index = $i;
-                }
-            }
-
-            $day = substr($value, 0, $index);
-
-
-            //$SV_MSSV= substr( $value, $index+1, strlen($value)-strlen($day)-3);
-            $SV_MSSV= substr( $value, $index+1, strlen($value)-strlen($day)-1);
-//            return $SV_MSSV;
-
-            $diemDanh = DiemDanh::where([['LHP_ID',$LHP_ID],['SV_MSSV',$SV_MSSV]]);
-            // return $diemDanh->get();
-            //return $diemDanh->get('DIEM_DANH');
-            //return 'ok';
-            // neu da co gia tri cu cua diem danh
-            if ( ($diemDanh->get('DIEM_DANH')[0]->DIEM_DANH == '') )
-            {   
-                //$data_req = implode(', ' ,$data_req);
-                
-                $new_value = $day.':true';
-                // luu csdl
-                $diemDanh->update(['DIEM_DANH'=>$new_value]);
-
-            } else 
-            {
-                // gia tri diem danh cu cua sinh vien SV_MSSV trong LHP_ID
-                $old_data = $diemDanh->get('DIEM_DANH')[0]->DIEM_DANH; 
-                // convert data string -> array
-                $old_data = explode (', ', $old_data);
-                
-                $data_will_update = $old_data;
-                // duyet tung phan tu cu xem co cap nhat
-                // result old_data da cap nhat
-                $check = 0;
-                foreach ($old_data as $old_k => $old_v){
-
-                    $index = 0;
-                    for($i=0; $i<strlen($old_v); $i++){
-                        if ($old_v[$i] == ":"){
-                            $index = $i;
-                        }
-                    }
-                    $old_day = substr($old_v, 0, $index);
-
-                    if ($old_day === $day){
-                        $check = 1;
-                        // neu diem danh co chinh sua
-                        // true->false, false->true
-                        if( $old_v[$index+1] == 't'){
-                            
-                            $data_will_update[$old_k] = $day.':false';
-                            $diemDanh->update(['DIEM_DANH'=>implode(', ' ,$data_will_update)]);
-
-                        } else {
-
-                            $data_will_update[$old_k] = $day.':true';
-                            $diemDanh->update(['DIEM_DANH'=>implode(', ' ,$data_will_update)]);
-                        }
-                    } 
-                }
-                // neu check thi them moi
-                if ($check == 0){
-
-                    $old_data = implode(', ' ,$old_data);
-                    $new_data = $old_data.', '.$day.':true';
-                    // luu csdl
-                    $diemDanh->update(['DIEM_DANH'=>$new_data]);
-                }  
-            }
+        $diemDanh = DiemDanh::where('DD_ID',$DD_ID);
+        $TRANG_THAI = $diemDanh->get()[0]->TRANG_THAI;
+        if ($TRANG_THAI == 1){
+            $TRANG_THAI = 0;
+        } else {
+            $TRANG_THAI = 1;
         }
+        $diemDanh->update(['TRANG_THAI'=>$TRANG_THAI]);
         return 'ok';
     }
 
@@ -191,9 +131,9 @@ class DiemDanhController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($mssv, $lhp_id)
+    public function destroy($id)
     {
-        $diemDanh = DiemDanh::where([['SV_MSSV',$mssv],['LHP_ID',$lhp_id]]);
+        $diemDanh = DiemDanh::where('DD_ID',$id);
         $diemDanh->delete();
 
         return response()->json($diemDanh, 204);

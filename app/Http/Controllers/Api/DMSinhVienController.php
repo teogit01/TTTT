@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DMSinhVien as DMSinhVienResource;
 use App\Models\DMSinhVien;
+use App\Models\CTDD;
 
 class DMSinhVienController extends Controller
 {
@@ -76,5 +77,66 @@ class DMSinhVienController extends Controller
         $dmSinhVien->delete();
 
         return response()->json($dmSinhVien, 204);
+    }
+    public function sv_of_lop($LOP_ID)
+    {
+        $dssv = DMSinhVien::where('LOP_ID',$LOP_ID)->get();
+        return $dssv;
+
+        //return response()->json($dmSinhVien, 204);
+    }
+    //get tat ca sv k thuoc lop
+    public function sv_khac_lop($LOP_ID)
+    {
+        $dssv = DMSinhVien::where('LOP_ID','!=',$LOP_ID)->get();
+        return $dssv;
+
+        //return response()->json($dmSinhVien, 204);
+    }   
+
+    //get tat ca ctdd
+    public function sv_of_ctdd($DD_ID)
+    {
+
+        $ctdd = CTDD::where('DD_ID',$DD_ID)->with('dm_sv')->get();
+
+        //return $ctdd;
+        $dssv =[];
+        foreach ($ctdd as $item){
+            $dssv[] = DMSinhVien::where('SV_MSSV',$item->SV_MSSV)->with('dm_ctdd')->first();   
+            //$dssv[] = DMSinhVien::where('SV_MSSV',$item->SV_MSSV)->first();   
+            //$dssv[] = $item->dm_sv;
+
+        }
+        return $dssv;
+        //$dssv = DMSinhVien::where('DD_ID',$DD_ID)->get();
+        $result_dssv=[];
+        foreach ($dssv as $k => $item){
+            //echo $item->dm_ctdd[0]->DD_ID.'--';
+            echo $item->dm_ctdd.'--';
+            //return $item->dm_ctdd[0]->DD_ID;
+            // if($item->dm_ctdd[]->DD_DD == $DD_ID){
+            //     $result_dssv[] = $item;
+            // }
+        }
+        return $result_dssv;
+
+        //return response()->json($dmSinhVien, 204);
+    }
+    public function sv_khac_ctdd($DD_ID)
+    {
+        $dssv = DMSinhVien::all();
+
+        $ctdd = CTDD::where('DD_ID',$DD_ID)->get();
+
+        foreach ($ctdd as $item){
+            $dssv_ctdd[] = DMSinhVien::where('SV_MSSV',$item->SV_MSSV)->first();   
+       }
+       //return $dssv_ctdd;
+        $diff = $dssv->diff($dssv_ctdd);
+        
+        return $diff;
+
+        //return response()->json($dmSinhVien, 204);
     }
 }

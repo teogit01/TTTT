@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DiemDanh;
+use App\Models\CTDD;
 
 class DMSinhVien extends Model
 {
-     protected $table = 'APTECH_SINHVIEN';
+     protected $table = 'APTECH_DMSINHVIEN';
 
     protected $primaryKey = 'SV_MSSV';
 
@@ -28,7 +29,7 @@ class DMSinhVien extends Model
         'SV_NGUOITHAN',
         'SV_EMAILNGUOITHAN',
         'SV_DIENTHOAINGUOITHAN',
-        'V_SOCMND',
+        'SV_SOCMND',
         'SV_NOICAP',
         'SV_NGAYCAP',
         'SV_MOIQUANHE',
@@ -41,5 +42,9 @@ class DMSinhVien extends Model
     public function diemDanh()
     {
         return $this->hasMany(DiemDanh::class, 'SV_MSSV');
+    }
+    public function dm_ctdd()
+    {
+        return $this->hasMany(CTDD::class, 'SV_MSSV','SV_MSSV');
     }
 }

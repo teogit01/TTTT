@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -15,5 +14,10 @@ require('./bootstrap');
 require('./components/Example');
 require('./components/Header/Header');
 require('./components/Footer/Footer');
-require('./components/Class/Main');
+require('./components/DiemDanh/Main');
+require('./components/XTN');
 
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
