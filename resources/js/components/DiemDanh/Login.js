@@ -1,4 +1,5 @@
 import React from 'react';
+var md5 = require('md5');
 
 import { Redirect } from 'react-router-dom'
 import callApi from './../../apiCaller/apiCaller'
@@ -44,7 +45,8 @@ class Login extends React.Component {
 		
 		dsgv.forEach(item=>{
 			if (item.GV_UserName === username){
-				if ( item.GV_PassWord === password ){
+				
+				if ( item.GV_PassWord === md5(password) ){
 					let data = {
 						msgv : item.GV_MSGV,
 						role : item.GV_ROLE
@@ -60,6 +62,7 @@ class Login extends React.Component {
 	}
 
 	render(){
+
 		const { username, password, isLogin } = this.state
 		if ( isLogin === true ){
 			let token = JSON.parse(localStorage.getItem('token'))
