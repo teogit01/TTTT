@@ -38,6 +38,7 @@ class DetailClass extends React.Component {
 			token: '',
 
 			date : moment().format('YYYY-MM-DD'),
+			date_curent : moment().format('YYYY-MM-DD'),
 			
 			check : '',
 			isLogin,
@@ -299,7 +300,7 @@ class DetailClass extends React.Component {
 		const { student_add, 
 				student_of_class, 
 				student_can_add, student_up,
-				total, 
+				total, date_curent, 
 				clickDay, checkedB, yesterday,
 				isLogin, date, titles, token,
 				LOP_ID, MH_ID } = this.state
@@ -352,7 +353,7 @@ class DetailClass extends React.Component {
 						<h3><input 
 							type='date' 
 							value={date}
-							min={JSON.parse(localStorage.getItem('token')).role == 1 ? '' : date}
+							min={JSON.parse(localStorage.getItem('token')).role == 1 ? '' : date_curent}
 							onChange = {this.handleChangeDate}
 							className='form-control' /></h3>
 						<Select
@@ -473,6 +474,10 @@ class DetailClass extends React.Component {
 				<div className='save'>
 					<button className='btn btn-info' onClick={this.handleSave}>Lưu lại</button>
 				</div>
+				<div>
+					GV: LUU TIEN DAO
+				</div>
+				<div>Ngay:<input type='date' value={date_curent} className='form-control' /></div>
 			</div>
 		);
 	}
